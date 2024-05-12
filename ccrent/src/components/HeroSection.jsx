@@ -8,7 +8,7 @@ const HeroSection = () => {
         <div className="space-y-7">
           <h1 className="text-4xl md:text-6xl font-bold text-white">Dobrodošli u CCRent</h1>
           <p className="text-lg text-white">Iznajmite vozilo po najpovoljnijim cijenama u samo par klikova</p>
-          <Link to="/cars" className="text-lg bg-gray-800 hover:bg-orange-500 duration-500 text-white py-2 px-4 rounded-lg inline-block mt-4">Pogledajte vozila</Link>
+          <Link to="/vozila" className="text-lg bg-gray-800 hover:bg-orange-500 duration-500 text-white py-2 px-4 rounded-lg inline-block mt-4">Pogledajte vozila</Link>
         </div>
       </div>
     </div>

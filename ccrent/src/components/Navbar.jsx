@@ -18,7 +18,7 @@ const Navbar = () => {
                 O nama
               </a>
               <a
-                href="/contact"
+                href="/kontakt"
                 className="mr-4 text-gray-700 hover:text-gray-900"
               >
                 Kontakt
@@ -41,7 +41,7 @@ const Navbar = () => {
                   O nama
                 </a>
                 <a
-                  href="/contact"
+                  href="/kontakt"
                   className="block px-4 py-2 text-gray-700 hover:text-gray-900"
                 >
                   Kontakt
@@ -57,7 +57,7 @@ const Navbar = () => {
                     to="/register"
                     className="text-white bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 rounded-lg md:block hidden"
                   >
-                    Prijava
+                    Registracija
                   </Link>
                 </div>
               </div>
@@ -66,15 +66,15 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link
               to="/login"
-              className="mr-2 text-white bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1 rounded-lg text-center"
+              className="mr-2 text-white bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1 rounded-lg text-center hover:scale-95 duration-300"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="text-white bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 rounded-lg md:block hidden"
+              className="text-white bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 rounded-lg md:block hidden hover:scale-95 duration-300"
             >
-              Prijava
+              Registracija
             </Link>
           </div>
         </header>
