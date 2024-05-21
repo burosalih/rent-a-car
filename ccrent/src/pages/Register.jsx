@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import axios from "axios";
-import bcrypt from "bcryptjs";
 import { Link } from "react-router-dom";
 
 function Register() {
@@ -17,18 +16,23 @@ function Register() {
     if (!password.current.value.match(passwordRegEx))
       return alert("Šifra treba imati minimalno 8 karaktera, najmanje 1 slovo i 1 broj.");
 
-    const hashedPassword = bcrypt.hashSync(password.current.value);
-    axios
-      .post("http://127.0.0.1:8000/api/signup", {
-        firstname: firstname.current.value,
-        lastname: lastname.current.value,
-        telephone: telephone.current.value,
-        email: email.current.value,
-        password: hashedPassword,
+    axios.get("http://localhost:8000/users")
+      .then((response) => {
+        const users = response.data;
+        const newId = (users.length > 0 ? Math.max(...users.map(user => parseInt(user.id))) + 1 : 1).toString();
+
+        return axios.post("http://localhost:8000/users", {
+          id: newId,
+          ime: firstname.current.value,
+          prezime: lastname.current.value,
+          broj: telephone.current.value,
+          email: email.current.value,
+          password: password.current.value,
+          role: "user"
+        });
       })
       .then(() => {
-        alert("Account created successfully.");
-        // Redirect to login page
+        alert("Nalog je uspješno kreiran.");
         window.location.href = "/login";
       })
       .catch((error) => alert(error.response.data.message));

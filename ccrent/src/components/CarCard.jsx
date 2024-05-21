@@ -9,21 +9,21 @@ const CarCard = ({ props }) => {
     <div className="">
       <div className="">
           <div className="bg-gray-400 w-full h-full">
-            <img
-              className="object-cover h-215 w-full"
-              src={props.img}
-              alt="Slika"
-            />
+          <img
+  className="object-cover h-40 w-full"
+  src={props.img_url}
+  alt="Slika"
+/>  
         </div>
 
         <div className="p-4">
           <div className="flex flex-row gap-1 items-baseline">
-            <h2 className="text-md font-semibold">{props.brand}</h2>
+            <h2 className="text-md font-semibold">{props.brend}</h2> {/* Updated to brend */}
             <h3 className="text-md font-semibold">{props.model}</h3>
           </div>
           <div className="py-3">
             <p className="text-gray-400">Cijena po danu</p>
-            <h2 className="text-md font-semibold text-gray-600">{props.price}KM</h2>
+            <h2 className="text-md font-semibold text-gray-600">{props.cijena}KM</h2> {/* Updated to cijena */}
           </div>
           <button
             className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:scale-95 duration-300 text-white py-2 rounded"
@@ -39,7 +39,7 @@ const CarCard = ({ props }) => {
                 Mjenjač
               </h3>
               <p className="text-gray-600 font-semibold">
-                {props.gearbox}
+                {props.transmisija} {/* Updated to transmisija */}
               </p>
             </div>
             <div>
@@ -47,7 +47,7 @@ const CarCard = ({ props }) => {
                 Gorivo
               </h3>
               <p className="text-gray-600 font-semibold">
-                {props.type}
+                {props.gorivo} {/* Updated to gorivo */}
               </p>
             </div>
             <div>
@@ -55,11 +55,9 @@ const CarCard = ({ props }) => {
                 Dostupnost
               </h3>
               <p className="text-gray-600 font-semibold">
-                {props.available === 1
+                {props.dostupnost === true // Updated to dostupnost
                   ? "Da"
-                  : props.available === 0
-                  ? "Ne"
-                  : props.available}
+                  : "Ne"}
               </p>
             </div>
           </div>
@@ -74,11 +72,11 @@ const CarCard = ({ props }) => {
 export default CarCard;
 
 CarCard.defaultProps = {
-  img: "",
-  brand: "Default brand",
+  img_url: "", // Updated to img_url
+  brend: "Default brand", // Updated to brend
   model: "0000",
-  price: "000",
-  gearbox: "---",
-  type: "---",
-  available: "---",
+  cijena: "000", // Updated to cijena
+  transmisija: "---", // Updated to transmisija
+  gorivo: "---", // Updated to gorivo
+  dostupnost: "---", // Updated to dostupnost
 };

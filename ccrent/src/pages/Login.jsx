@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import bcrypt from "bcryptjs";
 
@@ -7,29 +7,30 @@ function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   function handleLogin(e) {
     e.preventDefault();
-
+  
     axios
-      .post("", {
-        email: emailRef.current.value,
-      })
+      .get(`http://localhost:8000/users?email=${emailRef.current.value}`)
       .then((response) => {
-        const { id, firstname, lastname, telephone, email } =
-          response.data.data;
-
-        const verifyPassword = bcrypt.compareSync(
-          passwordRef.current.value,
-          response.data.pass
-        );
-        if (verifyPassword) {
-          localStorage.setItem("id", id);
-          localStorage.setItem("firstname", firstname);
-          localStorage.setItem("lastname", lastname);
-          localStorage.setItem("telephone", telephone);
-          localStorage.setItem("email", email);
-          window.location.href = "/cars";
+        const user = response.data[0];
+  
+        if (!user) {
+          setError("Korisnik nije pronađen.");
+          return;
+        }
+  
+        if (passwordRef.current.value === user.password) {
+          localStorage.setItem("user", JSON.stringify(user));
+          if (user.role === "admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/profile");
+          }
+          window.location.reload()
+            
         } else {
           setError("Pogrešna šifra. Pokušajte ponovo.");
         }
@@ -39,6 +40,7 @@ function Login() {
         setError("Error. Molimo pokušajte ponovo.");
       });
   }
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -47,14 +49,11 @@ function Login() {
           Ukucajte lične podatke
         </h2>
       </div>
-
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email adresa
-              </label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email adresa</label>
               <div className="mt-1">
                 <input
                   id="email"
@@ -69,9 +68,7 @@ function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Šifra
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Šifra</label>
               <div className="mt-1">
                 <input
                   id="password"
@@ -87,9 +84,9 @@ function Login() {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <Link to="/forgot-password" className="font-medium text-orange-600 hover:text-orange-500">
+                <a href="/forgot-password" className="font-medium text-orange-600 hover:text-orange-500">
                   Zaboravili ste šifru?
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -115,9 +112,9 @@ function Login() {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-red-500 hover:scale-105 duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               >
-                Login
+                Prijavite se
               </button>
             </div>
           </form>

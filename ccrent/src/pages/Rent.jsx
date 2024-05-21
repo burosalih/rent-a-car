@@ -3,38 +3,45 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useAuth } from "../useAuth"; // Adjust the path to where your AuthContext is located
 
 function Rent() {
-  const navigation = useNavigate();
-  const navigate = (route) => navigation(route);
+  const navigate = useNavigate();
   const params = useParams();
-  const [car, setCar] = useState({
-    id: 1,
-    img: "/images/placeholder1.jpg",
-    brand: "Renault",
-    model: "Clio",
-    price: "35",
-    gearbox: "Manuelni",
-    type: "Dizel",
-    available: "Da",
-  });
+  const [car, setCar] = useState(null);
   const rentalDate = useRef("");
   const returnDate = useRef("");
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalcijena, setTotalcijena] = useState(0);
+  const { user } = useAuth();
 
   useEffect(() => {
+    // Check if user is authenticated
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     axios
-      .get(`http://127.0.0.1:8000/api/cars/${params.id}`)
+      .get(`http://localhost:8000/cars`)
       .then((response) => {
-        setCar(response.data.data[0]);
+        const car = response.data.find((car) => car.id === params.id);
+        if (car) {
+          setCar(car);
+        } else {
+          console.error("Car not found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching car data:", error);
       });
-  }, [params.id]);
+  }, [params.id, navigate, user]);
 
   useEffect(() => {
-    calculatePrice();
-  }, []);
+    calculatecijena();
+  }, [car]);
 
-  const calculatePrice = () => {
+  const calculatecijena = () => {
+    if (!car) return;
     const rental_date = Date.parse(rentalDate.current.value);
     const return_date = Date.parse(returnDate.current.value);
     const now = new Date().getTime();
@@ -42,22 +49,22 @@ function Rent() {
     const rentDuration = return_date - rental_date;
     if (rentalDate.current.value && returnDate.current.value) {
       if (rental_date < now || return_date < now) {
-        setTotalPrice(0);
+        setTotalcijena(0);
       } else if (rentDuration <= 0) {
-        setTotalPrice(0);
+        setTotalcijena(0);
       } else {
-        const price = (rentDuration / (1000 * 60 * 60 * 24)) * car.price;
-        setTotalPrice(price);
+        const cijena = (rentDuration / (1000 * 60 * 60 * 24)) * car.cijena;
+        setTotalcijena(cijena);
       }
     }
   };
 
   const handleRentalDateChange = () => {
-    calculatePrice();
+    calculatecijena();
   };
 
   const handleReturnDateChange = () => {
-    calculatePrice();
+    calculatecijena();
   };
 
   function rentACar(e) {
@@ -69,23 +76,23 @@ function Rent() {
     const rentDuration = return_date - rental_date;
 
     if (rental_date < now || return_date < now) {
-      console.log("Please select a valid rental and return dates.");
+      console.log("Please select valid rental and return dates.");
     } else if (rentDuration <= 0) {
-      console.log("You can rent for 1 day at least.");
+      console.log("You can rent for at least 1 day.");
     } else {
-      const price = (rentDuration / (1000 * 60 * 60 * 24)) * car.price;
+      const cijena = (rentDuration / (1000 * 60 * 60 * 24)) * car.cijena;
 
       const rent = {
         rental_date: rentalDate.current.value,
         return_date: returnDate.current.value,
-        price: price,
-        user_id: localStorage.getItem("id"),
+        cijena: cijena,
+        user_id: user.id,
         car_id: params.id,
       };
-      console.log(rent);
+
       if (rentalDate.current.value !== "" && returnDate.current.value !== "") {
         axios
-          .post("http://127.0.0.1:8000/api/rents", rent)
+          .post("http://localhost:8000/rents", rent)
           .then((response) => {
             navigate("/vozila");
           })
@@ -98,19 +105,21 @@ function Rent() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="h-screen flex items-center justify-center">
         <div className="flex flex-col lg:flex-row max-w-4xl w-full bg-white shadow-xl rounded-md overflow-hidden">
           <div className="lg:w-1/2 h-64 lg:h-auto relative">
             <img
               className="w-full h-full object-cover"
-              src={car.img}
+              src={car?.img_url}
               alt="Car"
             />
           </div>
           <div className="lg:w-1/2 p-8 bg-white">
             <div className="flex flex-col justify-center h-full">
-              <h2 className="text-2xl font-semibold mb-4">{car.brand}</h2>
+              <h2 className="text-2xl font-semibold mb-4">
+                {car?.brend} {car?.model}
+              </h2>
               <form className="flex flex-col space-y-4">
                 <label className="font-semibold text-gray-600">
                   Datum rentanja
@@ -131,12 +140,10 @@ function Rent() {
                   className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
                 />
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-600">
-                    Cijena
-                  </span>
+                  <span className="font-semibold text-gray-600">Cijena</span>
                   <div className="flex items-center">
                     <span className="text-xl font-medium text-gray-600 mr-1">
-                      sračunataCijena
+                      {totalcijena.toFixed(2)}
                     </span>
                     <span className="text-gray-500">KM</span>
                   </div>
@@ -152,7 +159,7 @@ function Rent() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

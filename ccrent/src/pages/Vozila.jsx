@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import CarCard from "../components/CarCard";
@@ -7,45 +7,14 @@ import Footer from "../components/Footer";
 function Vozila() {
   const [cars, setCars] = useState([]);
 
-  const placeholderCars = [
-    {
-      id: 1,
-      img: "/images/placeholder1.jpg",
-      brand: "Renault",
-      model: "Clio",
-      price: "35",
-      gearbox: "Manuelni",
-      type: "Dizel",
-      available: "Da",
-    },
-    {
-      id: 2,
-      img: "/images/placeholder2.jpg",
-      brand: "Škoda",
-      model: "Octavia",
-      price: "40",
-      gearbox: "Automatik",
-      type: "Benzin",
-      available: "Ne",
-    },
-    {
-      id: 3,
-      img: "/images/placeholder3.jpg",
-      brand: "Mercedes-Benz",
-      model: "E220",
-      price: "50",
-      gearbox: "Automatik",
-      type: "Dizel",
-      available: "Da",
-    },
-  ];
-
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/cars").then((response) => {
-      setCars(response.data.data);
-    }).catch(() => {
-      setCars(placeholderCars);
-    });
+    axios.get("http://localhost:8000/cars")
+      .then((response) => {
+        setCars(response.data);
+      })
+      .catch((error) => {
+        console.error("Error loading cars:", error);
+      });
   }, []);
 
   return (
