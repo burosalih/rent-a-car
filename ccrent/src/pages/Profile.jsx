@@ -14,26 +14,24 @@ function Profile() {
       axios
         .get(`http://localhost:8000/rents?userId=${user.id}`)
         .then((response) => {
-          // Fetch the car details for each rental
-          const fetchCarDetails = response.data.map(rental => {
-            return axios.get(`http://localhost:8000/cars/${rental.car_id}`)
+          const fetchCarDetails = response.data.map((rental) => {
+            return axios.get(`http://localhost:8000/cars/${rental.car_id}`);
           });
 
-          // Resolve all promises and set rentals with car details
           Promise.all(fetchCarDetails)
-            .then(carResponses => {
+            .then((carResponses) => {
               const rentalsWithCarDetails = response.data.map((rental, index) => {
                 const car = carResponses[index].data;
                 return {
                   ...rental,
                   brend: car.brend,
                   model: car.model,
-                  img_url: car.img_url
+                  img_url: car.img_url,
                 };
               });
               setRentals(rentalsWithCarDetails);
             })
-            .catch(error => {
+            .catch((error) => {
               console.error("Error fetching car details:", error);
             });
         })
@@ -43,11 +41,18 @@ function Profile() {
     }
   }, [user]);
 
-  function handleCancelRental(rentalId) {
+  function handleCancelRental(rentalId, carId) {
     axios
       .delete(`http://localhost:8000/rents/${rentalId}`)
       .then(() => {
-        setRentals(rentals.filter((rental) => rental.id !== rentalId));
+        axios
+          .patch(`http://localhost:8000/cars/${carId}`, { dostupnost: true })
+          .then(() => {
+            setRentals(rentals.filter((rental) => rental.id !== rentalId));
+          })
+          .catch((error) => {
+            console.error("Error updating car availability:", error);
+          });
       })
       .catch((error) => {
         console.error("Error cancelling rental:", error);
@@ -66,17 +71,17 @@ function Profile() {
               {rentals.map((rental) => (
                 <li key={rental.id} className="bg-white p-4 shadow rounded-lg">
                   <div className="flex items-center justify-start gap-8">
-                  <img src={rental.img_url} alt={`${rental.brend} ${rental.model}`} className="w-16 h-16 object-contain" />
+                    <img src={rental.img_url} alt={`${rental.brend} ${rental.model}`} className="w-16 h-16 object-contain" />
                     <div>
                       <h4 className="text-md font-bold">{rental.brend} {rental.model}</h4>
                       <p>Datum unajmljivanja: {rental.rental_date}</p>
                     </div>
                     <button
-                    onClick={() => handleCancelRental(rental.id)}
-                    className="text-sm text-white bg-red-500 rounded-lg p-2 font-semibold hover:underline mt-2"
-                  >
-                    Otkaži rentu
-                  </button>
+                      onClick={() => handleCancelRental(rental.id, rental.car_id)}
+                      className="text-sm text-white bg-red-500 rounded-lg p-2 font-semibold hover:underline mt-2"
+                    >
+                      Otkaži rentu
+                    </button>
                   </div>
                 </li>
               ))}

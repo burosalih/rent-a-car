@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import HeroSection from "../components/HeroSection"; // Import HeroSection component
-import FeaturedCarsSection from "../components/FeaturedCarsSection"; // Import FeaturedCarsSection component
+import HeroSection from "../components/HeroSection"; 
+import FeaturedCarsSection from "../components/FeaturedCarsSection"; 
+import CustomerReviews from "../components/CustomerReviews";
 
 function Home() {
   const [showNavbarContent, setShowNavbarContent] = useState(false);
@@ -21,6 +22,7 @@ function Home() {
       <div className="mx-auto">
         <HeroSection />
         <FeaturedCarsSection />
+        <CustomerReviews/>
       </div>
       <Footer />
     </>

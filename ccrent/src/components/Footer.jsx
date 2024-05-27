@@ -4,8 +4,8 @@ import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white border-t border-gray-300">
-      <div className="container py-10 mx-auto">
+    <footer className="bg-gray-800 text-white border-t-8 border-orange-500">
+      <div className="container pt-8 mx-auto">
         <div className="flex flex-col sm:flex-row items-center gap-10 sm:justify-between">
           <div className="px-4 sm:px-0 md:px-10">
             <h2 className="font-semibold text-lg mb-2">O Nama</h2>

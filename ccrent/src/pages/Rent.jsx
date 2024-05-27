@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useAuth } from "../useAuth"; // Adjust the path to where your AuthContext is located
+import { useAuth } from "../useAuth";
 
 function Rent() {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ function Rent() {
   const { user } = useAuth();
 
   useEffect(() => {
-    // Check if user is authenticated
     if (!user) {
       navigate("/login");
       return;
@@ -67,7 +66,7 @@ function Rent() {
     calculatecijena();
   };
 
-  function rentACar(e) {
+  const rentACar = (e) => {
     e.preventDefault();
 
     const rental_date = Date.parse(rentalDate.current.value);
@@ -94,25 +93,32 @@ function Rent() {
         axios
           .post("http://localhost:8000/rents", rent)
           .then((response) => {
-            navigate("/vozila");
+            axios
+              .patch(`http://localhost:8000/cars/${params.id}`, { dostupnost: false })
+              .then(() => {
+                navigate("/vozila");
+              })
+              .catch((error) => {
+                console.error("Error updating car availability:", error);
+              });
           })
           .catch((error) => {
             console.error("Error creating rent:", error);
           });
       }
     }
-  }
+  };
 
   return (
     <>
       <Navbar />
       <div className="h-screen flex items-center justify-center">
         <div className="flex flex-col lg:flex-row max-w-4xl w-full bg-white shadow-xl rounded-md overflow-hidden">
-          <div className="lg:w-1/2 h-64 lg:h-auto relative">
+          <div className="lg:w-full h-64 lg:h-auto relative">
             <img
               className="w-full h-full object-cover"
-              src={car?.img_url}
-              alt="Car"
+              src={`.${car?.img_url}`}
+              alt="Auto"
             />
           </div>
           <div className="lg:w-1/2 p-8 bg-white">

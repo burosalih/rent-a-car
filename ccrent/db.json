@@ -31,33 +31,83 @@
   "cars": [
     {
       "id": "1",
-      "brend": "Toyota",
-      "model": "Corolla",
+      "brend": "Renault",
+      "model": "Clio",
       "transmisija": "Manuelni",
       "gorivo": "Benzin",
       "cijena": 80,
       "dostupnost": true,
-      "img_url": "https://p7.hiclipart.com/preview/866/237/211/2018-toyota-corolla-toyota-matrix-car-opel-astra-2018.jpg"
+      "img_url": "./images/placeholder1.jpg"
     },
     {
       "id": "2",
       "brend": "Skoda",
       "model": "Octavia",
-      "transmisija": "Automatic",
-      "gorivo": "Dizel",
+      "transmisija": "Automatik",
+      "gorivo": "Benzin",
       "cijena": 100,
-      "dostupnost": false,
-      "img_url": "https://p7.hiclipart.com/preview/643/907/602/%C5%A0koda-auto-car-%C5%A0koda-octavia-%C5%A0koda-kodiaq-skoda.jpg"
+      "dostupnost": true,
+      "img_url": "./images/placeholder2.jpg"
     },
     {
       "id": "3",
-      "brend": "Renault",
-      "model": "Clio",
-      "transmisija": "Automatic",
+      "brend": "Mercedes Benz",
+      "model": "E-Klasa",
+      "transmisija": "Automatik",
       "gorivo": "Dizel",
+      "cijena": 100,
+      "dostupnost": true,
+      "img_url": "./images/placeholder3.jpg"
+    },
+    {
+      "id": "4",
+      "brend": "Volkswagen",
+      "model": "Passat CC",
+      "transmisija": "Automatik",
+      "gorivo": "Dizel",
+      "cijena": 90,
+      "dostupnost": true,
+      "img_url": "./images/placeholder4.jpg"
+    },
+    {
+      "id": "5",
+      "brend": "Volkswagen",
+      "model": "Passat 8",
+      "transmisija": "Manuelni",
+      "gorivo": "Dizel",
+      "cijena": 100,
+      "dostupnost": true,
+      "img_url": "./images/placeholder5.jpg"
+    },
+    {
+      "id": "6",
+      "brend": "Opel",
+      "model": "Corsa",
+      "transmisija": "Automatik",
+      "gorivo": "Hibrid",
       "cijena": 80,
-      "dostupnost": false,
-      "img_url": "https://p7.hiclipart.com/preview/440/847/675/clio-renault-sport-car-renault-clio-gt-line-renault-4-renault.jpg"
+      "dostupnost": true,
+      "img_url": "./images/placeholder6.jpg"
+    },
+    {
+      "id": "7",
+      "brend": "Mercedes Benz",
+      "model": "A-Klasa",
+      "transmisija": "Automatik",
+      "gorivo": "Dizel",
+      "cijena": 110,
+      "dostupnost": true,
+      "img_url": "./images/placeholder7.jpg"
+    },
+    {
+      "id": "8",
+      "brend": "BMW",
+      "model": "X3",
+      "transmisija": "Automatik",
+      "gorivo": "Dizel",
+      "cijena": 140,
+      "dostupnost": true,
+      "img_url": "./images/placeholder8.jpg"
     }
   ],
   "rents": []

@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import bcrypt from "bcryptjs";
 
 function Login() {
   const emailRef = useRef();

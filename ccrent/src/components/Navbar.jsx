@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { useAuth } from "../useAuth";
 import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   function handleLogout() {
     logout();
     navigate('/');
+  }
+
+  function toggleMobileMenu() {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   }
 
   return (
@@ -19,11 +25,12 @@ function Navbar() {
               type="button"
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-controls="mobile-menu"
-              aria-expanded="false"
+              aria-expanded={isMobileMenuOpen ? "true" : "false"}
+              onClick={toggleMobileMenu}
             >
               <span className="sr-only">Open main menu</span>
               <svg
-                className="block h-6 w-6"
+                className={`block h-6 w-6 ${isMobileMenuOpen ? 'hidden' : 'block'}`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -33,7 +40,7 @@ function Navbar() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
               <svg
-                className="hidden h-6 w-6"
+                className={`h-6 w-6 ${isMobileMenuOpen ? 'block' : 'hidden'}`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -57,10 +64,16 @@ function Navbar() {
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 <Link
-                  to="/"
+                  to="/kontakt"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Početna
+                  Kontakt
+                </Link>
+                <Link
+                  to="/about"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  O nama
                 </Link>
                 {user?.role === 'admin' && (
                   <Link
@@ -99,19 +112,58 @@ function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="text-gray-300 bg-orange-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-2"
+                  className="text-gray-300 bg-orange-500 hover:bg-gray-700 hover:text-white duration-300 px-3 py-2 rounded-md text-sm font-medium mr-2"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="text-gray-300 bg-red-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 bg-red-500 hover:bg-gray-700 hover:text-white duration-300 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Registracija
                 </Link>
               </>
             )}
           </div>
+        </div>
+      </div>
+
+      <div className={`sm:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          <Link
+            to="/kontakt"
+            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+          >
+            Kontakt
+          </Link>
+          <Link
+            to="/about"
+            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+          >
+            O nama
+          </Link>
+          {user?.role === 'admin' && (
+            <Link
+              to="/dashboard"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Admin Panel
+            </Link>
+          )}
+          <Link
+            to="/vozila"
+            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+          >
+            Automobili
+          </Link>
+          {user && (
+            <Link
+              to="/profile"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Profil
+            </Link>
+          )}
         </div>
       </div>
     </nav>

@@ -8,6 +8,7 @@ import Rent from "./pages/Rent";
 import Dashboard from "./pages/Dashboard";
 import { AuthProvider } from "./useAuth";
 import Profile from "./pages/Profile";
+import About from "./pages/About";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/vozila" element={<Vozila />} />
         <Route path="/rent/:id" element={<Rent />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
     </AuthProvider>
