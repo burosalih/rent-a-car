@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useAuth } from "../useAuth";
+import { LuFuel } from "react-icons/lu";
+import { GiGearStickPattern } from "react-icons/gi";
 
 function Rent() {
   const navigate = useNavigate();
@@ -41,13 +43,13 @@ function Rent() {
 
   const calculatecijena = () => {
     if (!car) return;
-    const rental_date = Date.parse(rentalDate.current.value);
-    const return_date = Date.parse(returnDate.current.value);
+    const dan_rentanja = Date.parse(rentalDate.current.value);
+    const dan_povratka = Date.parse(returnDate.current.value);
     const now = new Date().getTime();
 
-    const rentDuration = return_date - rental_date;
+    const rentDuration = dan_povratka - dan_rentanja;
     if (rentalDate.current.value && returnDate.current.value) {
-      if (rental_date < now || return_date < now) {
+      if (dan_rentanja < now || dan_povratka < now) {
         setTotalcijena(0);
       } else if (rentDuration <= 0) {
         setTotalcijena(0);
@@ -69,21 +71,21 @@ function Rent() {
   const rentACar = (e) => {
     e.preventDefault();
 
-    const rental_date = Date.parse(rentalDate.current.value);
-    const return_date = Date.parse(returnDate.current.value);
+    const dan_rentanja = Date.parse(rentalDate.current.value);
+    const dan_povratka = Date.parse(returnDate.current.value);
     const now = new Date().getTime();
-    const rentDuration = return_date - rental_date;
+    const rentDuration = dan_povratka - dan_rentanja;
 
-    if (rental_date < now || return_date < now) {
-      console.log("Please select valid rental and return dates.");
+    if (dan_rentanja < now || dan_povratka < now) {
+      console.log("Nemoguce");
     } else if (rentDuration <= 0) {
-      console.log("You can rent for at least 1 day.");
+      console.log(".");
     } else {
       const cijena = (rentDuration / (1000 * 60 * 60 * 24)) * car.cijena;
 
       const rent = {
-        rental_date: rentalDate.current.value,
-        return_date: returnDate.current.value,
+        dan_rentanja: rentalDate.current.value,
+        dan_povratka: returnDate.current.value,
         cijena: cijena,
         user_id: user.id,
         car_id: params.id,
@@ -113,7 +115,7 @@ function Rent() {
     <>
       <Navbar />
       <div className="h-screen flex items-center justify-center">
-        <div className="flex flex-col lg:flex-row max-w-4xl w-full bg-white shadow-xl rounded-md overflow-hidden">
+        <div className="flex flex-col lg:flex-row mx-12 w-full bg-white shadow-xl rounded-md overflow-hidden">
           <div className="lg:w-full h-64 lg:h-auto relative">
             <img
               className="w-full h-full object-cover"
@@ -125,6 +127,14 @@ function Rent() {
             <div className="flex flex-col justify-center h-full">
               <h2 className="text-2xl font-semibold mb-4">
                 {car?.brend} {car?.model}
+              </h2>
+              <h2 className="text-xl mb-4 flex flex-row items-center gap-1">
+                <LuFuel />
+                {car?.gorivo}
+              </h2>
+              <h2 className="text-xl mb-4 flex flex-row items-center gap-1">
+               <GiGearStickPattern />
+                {car?.transmisija}
               </h2>
               <form className="flex flex-col space-y-4">
                 <label className="font-semibold text-gray-600">

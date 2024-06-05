@@ -71,10 +71,12 @@ function Profile() {
               {rentals.map((rental) => (
                 <li key={rental.id} className="bg-white p-4 shadow rounded-lg">
                   <div className="flex items-center justify-start gap-8">
-                    <img src={rental.img_url} alt={`${rental.brend} ${rental.model}`} className="w-16 h-16 object-contain" />
+                    <img src={rental.img_url} alt={`${rental.brend} ${rental.model}`} className="w-32 h-32 object-contain" />
                     <div>
                       <h4 className="text-md font-bold">{rental.brend} {rental.model}</h4>
-                      <p>Datum unajmljivanja: {rental.rental_date}</p>
+                      <p>Datum unajmljivanja: {rental.dan_rentanja}</p>
+                      <p>Datum povratka: {rental.dan_povratka}</p>
+                      <p>Cijena: {rental.cijena} KM</p>
                     </div>
                     <button
                       onClick={() => handleCancelRental(rental.id, rental.car_id)}

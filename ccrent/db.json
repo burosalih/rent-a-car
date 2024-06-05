@@ -2,21 +2,21 @@
   "users": [
     {
       "id": "1",
-      "ime": "John",
-      "prezime": "Doe",
+      "ime": "Admin",
+      "prezime": "Admin",
       "broj": "1234567890",
-      "email": "john.doe@example.com",
+      "email": "admin@admin.com",
       "role": "admin",
-      "password": "obri"
+      "password": "adminadmin"
     },
     {
       "id": "2",
-      "ime": "Jane",
-      "prezime": "Doe",
+      "ime": "User",
+      "prezime": "User",
       "broj": "0987654321",
-      "email": "jane.doe@example.com",
+      "email": "user@user.com",
       "role": "user",
-      "password": "obriga"
+      "password": "user123"
     },
     {
       "id": "3",

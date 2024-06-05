@@ -37,7 +37,7 @@ const CarCard = ({ props }) => {
           </button>
           <hr className="border-gray-300 my-3" />
 
-          <div className="grid grid-cols-3 py-4 text-center">
+          <div className="grid grid-cols-2 py-4 text-center">
             <div>
               <h3 className="text-xs font-medium text-gray-400">Mjenjač</h3>
               <p className="text-gray-600 font-semibold">{props.transmisija}</p>
@@ -45,12 +45,6 @@ const CarCard = ({ props }) => {
             <div>
               <h3 className="text-xs font-medium text-gray-400">Gorivo</h3>
               <p className="text-gray-600 font-semibold">{props.gorivo}</p>
-            </div>
-            <div>
-              <h3 className="text-xs font-medium text-gray-400">Dostupnost</h3>
-              <p className="text-gray-600 font-semibold">
-                {props.dostupnost === true ? "Da" : "Ne"}
-              </p>
             </div>
           </div>
 
